@@ -1,6 +1,7 @@
 import React from 'react';
 import TodoList from './components/TodoList';
 import TodoForm from './components/TodoForm';
+import SearchBar from './components/SearchBarContainer';
 import './App.css';
 
 const tasks = [
@@ -74,6 +75,19 @@ class App extends React.Component {
     console.log(this.state);
   };
 
+  //search stuff
+  getFilteredItems = () => {
+    const term = this.state.searchTerm.trim()
+    return this.state.tasks.filter(pt => {
+      if (!term) {
+        return pt
+      }
+      if (pt.tasks.toLowerCase().includes(term.toLowerCase())) {
+        return pt
+      }
+    })
+  }
+
   render() {
     return (
       <div className='App'>
@@ -83,6 +97,7 @@ class App extends React.Component {
           </div>
           
           <div className='header'>
+            <SearchBar getFilteredItems={this.getFilteredItems} />
             <h2>To-Do List</h2>
             <TodoForm addTask={this.addTask} />
           </div>
