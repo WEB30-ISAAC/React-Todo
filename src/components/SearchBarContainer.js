@@ -2,11 +2,11 @@ import React from "react";
 // import "./SearchBar.css";
 
 
-export default function SearchBar({ getFilteredItems}) {
+export default function SearchBar({ getFilteredItems, searchTerm}) {
   // On 'change' of the input we should set a new search term in app state
   const changeHandler = event => {
-    const searchTerm = event.target.value
-    getFilteredItems(searchTerm)
+    const inputTerm = event.target.value
+    getFilteredItems(inputTerm)
   }
 
   return (

@@ -1,7 +1,7 @@
 import React from 'react';
 import TodoList from './components/TodoList';
 import TodoForm from './components/TodoForm';
-import SearchBar from './components/SearchBarContainer';
+// import SearchBar from './components/SearchBarContainer';
 import './App.css';
 
 const tasks = [
@@ -23,6 +23,7 @@ class App extends React.Component {
     super(); // this.state, this.setState, lifecycle methods
     this.state = {
       tasks, // shorthand for tasks: tasks
+      searchTerm: ''
     };
   }
 
@@ -78,15 +79,25 @@ class App extends React.Component {
   //search stuff
   getFilteredItems = () => {
     const term = this.state.searchTerm.trim()
-    return this.state.tasks.filter(pt => {
-      if (!term) {
-        return pt
-      }
-      if (pt.tasks.toLowerCase().includes(term.toLowerCase())) {
-        return pt
-      }
+    console.log(this.state.searchTerm)
+
+    this.setState ({
+      tasks: this.state.tasks.filter(pt => {
+          if (!term) {
+            return pt
+          }
+          if (this.state.tasks.toLowerCase().includes(term.toLowerCase())) {
+            return pt
+          }
+      })
     })
   }
+
+  changeHandler = event => {
+    const inputTerm = event.target.value
+    this.getFilteredItems(inputTerm)
+  }
+
 
   render() {
     return (
@@ -97,7 +108,15 @@ class App extends React.Component {
           </div>
           
           <div className='header'>
-            <SearchBar getFilteredItems={this.getFilteredItems} />
+            <div className="search-bar-wrapper">
+              <form className="search-form">
+                <input
+                  type="text"
+                  placeholder="Search"
+                  onChange={this.changeHandler} 
+                />
+              </form>
+            </div>
             <h2>To-Do List</h2>
             <TodoForm addTask={this.addTask} />
           </div>
